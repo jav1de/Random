@@ -35,16 +35,22 @@ class MyGridLayout(GridLayout):
 
     # adding event on button press
     def press(self, instance):
-        if (self.Min.text == "" or self.Max.text == ""):
-            self.Result.font_size = 10
-            self.Result.text = "Min or Max is empty, just fill it with the number pls:)"
-        
-        else:
+        try:
+            int(self.Min.text)
+            int (self.Max.text)
+            checkInt = True
+        except ValueError:
+            checkInt = False
+
+        if (checkInt == True):
             Min = int(self.Min.text)
             Max = int(self.Max.text)
             Number = randint(Min, Max)
             self.Result.font_size = 20
             self.Result.text = f"Result: {Number}"
+        else:
+            self.Result.font_size = 20
+            self.Result.text = "Input number please."
 
 
 # adding layout to app
