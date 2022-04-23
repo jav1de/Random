@@ -8,8 +8,8 @@ from kivy.config import Config
 from random import randint
 
 
-Config.set('graphics', 'width', '500')
-Config.set('graphics', 'height', '200')
+Config.set('graphics', 'width', '200')
+Config.set('graphics', 'height', '250')
 Config.write()
 
 
@@ -17,13 +17,12 @@ Config.write()
 class MyGridLayout(GridLayout):
     def __init__(self, **kwargs):
         super(MyGridLayout, self).__init__(**kwargs)
-        self.padding = 10
-        self.cols = 2
-        self.add_widget(Label(text = "Min", font_size = 20))
-        self.Min = TextInput(size_hint = (.2, None), height = 30, multiline = False)
+        self.padding = 15
+        self.spacing = 25
+        self.cols = 1
+        self.Min = TextInput(hint_text = "Min", size_hint = (.2, None), height = 30, multiline = False)
         self.add_widget(self.Min)
-        self.add_widget(Label(text = "Max", font_size = 20))
-        self.Max = TextInput(size_hint = (.2, None), height = 30, multiline = False)
+        self.Max = TextInput(hint_text = "Max", size_hint = (.2, None), height = 30, multiline = False)
         self.add_widget(self.Max)
 
         self.Generate = Button(text = "Generate", font_size = 20)
