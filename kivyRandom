@@ -1,5 +1,4 @@
 # importing needed things
-import kivy
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
@@ -7,14 +6,14 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from random import randint
-
+from kivy.core.window import Window
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '250')
 Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'borderless', False)
 Config.set('graphics', 'exit_on_escape', True)
-Config.set('kivy', 'log_level', 'info')
+Config.set('kivy', 'log_level', 'debug')
 Config.write()
 
 
@@ -24,48 +23,47 @@ class MyGridLayout(GridLayout):
         super(MyGridLayout, self).__init__(**kwargs)
         self.padding = 15
         self.spacing = 25
-        self.halign = "center"
         self.cols = 1
-        self.Min = TextInput(hint_text = "Min", size_hint = (.2, None), height = 30, multiline = False)
-        self.add_widget(self.Min)
-        self.Max = TextInput(hint_text = "Max", size_hint = (.2, None), height = 30, multiline = False)
-        self.add_widget(self.Max)
+        self.min = TextInput(hint_text="Min", size_hint=(.2, None), height=30, multiline=False)
+        self.add_widget(self.min)
+        self.max = TextInput(hint_text="Max", size_hint=(.2, None), height=30, multiline=False)
+        self.add_widget(self.max)
 
-        self.Generate = Button(text = "Generate", font_size = 20)
-        self.Generate.bind(on_press = self.press)
+        self.Generate = Button(text="Generate", background_normal="", background_color=[0, 0, 0, 0.37], font_size=20)
+        self.Generate.bind(on_press=self.press)
         self.add_widget(self.Generate)
-        self.Result = Label(text = "Result: nothing yet", font_size = 20)
+        self.Result = Label(text="Result: nothing yet", color=[0, 0, 0, 1], font_size=20)
         self.add_widget(self.Result)
-
 
     # adding event on button press
     def press(self, instance):
-        if (self.Min.text == '' or self.Max.text == ''):
+        if self.min.text == '' or self.max.text == '':
             self.Result.font_size = 20
             self.Result.text = "Input number please."
         try:
-            int(self.Min.text)
-            int (self.Max.text)
-            Min = int(self.Min.text)
-            Max = int(self.Max.text)
-            Number = randint(Min, Max)
+            int(self.min.text)
+            int(self.max.text)
+            min = int(self.min.text)
+            max = int(self.max.text)
+            number = randint(min, max)
             self.Result.font_size = 20
-            self.Result.text = f"Result: {Number}"
-            Res = True
+            self.Result.text = f"Result: {number}"
+            res = True
         except ValueError:
-            Res = False
+            res = False
 
-            if (Res == False):
-                self.Result.font_size = 14
-                self.Result.text = "Check your input and try again."
+        if not res:
+            self.Result.font_size = 14
+            self.Result.text = "Check your input and try again."
 
 
 # adding layout to app
 class RandomApp(App):
     def build(self):
+        Window.clearcolor = (1, 1, 1, 1)
         return MyGridLayout()
 
 
-# runing app
+# running app
 if __name__ == "__main__":
     RandomApp().run()
